@@ -28,14 +28,12 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Lighting/src/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Lighting/src/camera.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Lighting/src/shader.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Lighting/src/solar_system.cpp
 )
 
 set(HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/Lighting/include/camera.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Lighting/include/shader.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Lighting/include/obj_loader.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/Lighting/include/solar_system.h
 )
 
 # ============================================================================
@@ -109,23 +107,18 @@ add_custom_command(TARGET Lighting PRE_BUILD
 )
 
 # ============================================================================
-# Копируем модель fish.obj
+# Копируем модели и текстуры
 # ============================================================================
 add_custom_command(TARGET Lighting POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${CMAKE_CURRENT_SOURCE_DIR}/Lighting/models/fish.obj"
-        "${CMAKE_CURRENT_BINARY_DIR}/bin/models/fish.obj"
-    COMMENT "Копирую fish.obj..."
-)
-
-# ============================================================================
-# Копируем текстуру fish.png
-# ============================================================================
-add_custom_command(TARGET Lighting POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${CMAKE_CURRENT_SOURCE_DIR}/Lighting/textures/fish.png"
-        "${CMAKE_CURRENT_BINARY_DIR}/bin/textures/fish.png"
-    COMMENT "Копирую fish.png..."
+    COMMAND ${CMAKE_COMMAND} -E echo "Копирую ресурсы..."
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_CURRENT_SOURCE_DIR}/Lighting/models"
+        "${CMAKE_CURRENT_BINARY_DIR}/bin/models"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_CURRENT_SOURCE_DIR}/Lighting/textures"
+        "${CMAKE_CURRENT_BINARY_DIR}/bin/textures"
+    COMMENT "Копирую все модели и текстуры..."
+    DEPENDS create_dirs
 )
 
 # ============================================================================
