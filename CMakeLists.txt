@@ -100,9 +100,9 @@ set_target_properties(Lighting PROPERTIES
 # ВАЖНО: Создаем директории ПЕРЕД копированием!
 add_custom_command(TARGET Lighting PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory
-        "\"${CMAKE_CURRENT_BINARY_DIR}\"/bin/models"
+        "${CMAKE_CURRENT_BINARY_DIR}/bin/models"
     COMMAND ${CMAKE_COMMAND} -E make_directory
-        "\"${CMAKE_CURRENT_BINARY_DIR}\"/bin/textures"
+        "${CMAKE_CURRENT_BINARY_DIR}/bin/textures"
     COMMENT "Создаём директории для моделей и текстур..."
 )
 
@@ -112,11 +112,11 @@ add_custom_command(TARGET Lighting PRE_BUILD
 add_custom_command(TARGET Lighting POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E echo "Копирую ресурсы..."
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "\"${CMAKE_CURRENT_SOURCE_DIR}\"/Lighting/models"
-        "\"${CMAKE_CURRENT_BINARY_DIR}\"/bin/models"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Lighting/models"
+        "${CMAKE_CURRENT_BINARY_DIR}/bin/models"
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "\"${CMAKE_CURRENT_SOURCE_DIR}\"/Lighting/textures"
-        "\"${CMAKE_CURRENT_BINARY_DIR}\"/bin/textures"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Lighting/textures"
+        "${CMAKE_CURRENT_BINARY_DIR}/bin/textures"
     COMMENT "Копирую все модели и текстуры..."
     DEPENDS create_dirs
 )
