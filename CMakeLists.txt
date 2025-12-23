@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(Lighting)
+project(Dirijabl-Aga)
 
 # ============================================================================
 # C++ Standard
@@ -25,15 +25,15 @@ find_package(SFML 2.6 COMPONENTS graphics window system REQUIRED)
 # Project Structure - Освещение
 # ============================================================================
 set(SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/Lighting/src/main.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Lighting/src/camera.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Lighting/src/shader.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Dirijabl/src/main.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Dirijabl/src/camera.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Dirijabl/src/shader.cpp
 )
 
 set(HEADERS
-    ${CMAKE_CURRENT_SOURCE_DIR}/Lighting/include/camera.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/Lighting/include/shader.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/Lighting/include/obj_loader.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Dirijabl/include/camera.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Dirijabl/include/shader.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Dirijabl/include/model.h
 )
 
 # ============================================================================
@@ -50,12 +50,12 @@ endforeach()
 # ============================================================================
 # Create Executable
 # ============================================================================
-add_executable(Lighting ${SOURCES} ${HEADERS})
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
 # ============================================================================
 # Include Directories
 # ============================================================================
-target_include_directories(Lighting 
+target_include_directories(${PROJECT_NAME} 
     PRIVATE 
         ${CMAKE_CURRENT_SOURCE_DIR}/Lighting/include
         ${CMAKE_CURRENT_SOURCE_DIR}/Lighting/src
@@ -68,7 +68,7 @@ target_include_directories(Lighting
 # ============================================================================
 # Link Libraries
 # ============================================================================
-target_link_libraries(Lighting 
+target_link_libraries(${PROJECT_NAME} 
     PRIVATE
         OpenGL::OpenGL           # OpenGL 3.3
         GLEW::GLEW               # GLEW для загрузки функций
@@ -82,51 +82,24 @@ target_link_libraries(Lighting
 # Compiler Flags
 # ============================================================================
 if(MSVC)
-    target_compile_options(Lighting PRIVATE /W4)
+    target_compile_options(${PROJECT_NAME} PRIVATE /W4)
 else()
-    target_compile_options(Lighting PRIVATE -Wall -Wextra -pedantic)
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic)
 endif()
 
 # ============================================================================
 # Build Output - Исполняемый файл в папке build/bin
 # ============================================================================
-set_target_properties(Lighting PROPERTIES
+set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/bin"
-)
-
-# ============================================================================
-# ИСПРАВЛЕННО: Копирование моделей и текстур
-# ============================================================================
-# ВАЖНО: Создаем директории ПЕРЕД копированием!
-add_custom_command(TARGET Lighting PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E make_directory
-        "${CMAKE_CURRENT_BINARY_DIR}/bin/models"
-    COMMAND ${CMAKE_COMMAND} -E make_directory
-        "${CMAKE_CURRENT_BINARY_DIR}/bin/textures"
-    COMMENT "Создаём директории для моделей и текстур..."
-)
-
-# ============================================================================
-# Копируем модели и текстуры
-# ============================================================================
-add_custom_command(TARGET Lighting POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E echo "Копирую ресурсы..."
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_CURRENT_SOURCE_DIR}/Lighting/models"
-        "${CMAKE_CURRENT_BINARY_DIR}/bin/models"
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_CURRENT_SOURCE_DIR}/Lighting/textures"
-        "${CMAKE_CURRENT_BINARY_DIR}/bin/textures"
-    COMMENT "Копирую все модели и текстуры..."
-    DEPENDS create_dirs
 )
 
 # ============================================================================
 # Version Information
 # ============================================================================
 message(STATUS "")
-message(STATUS "========== LightingConfiguration ==========")
-message(STATUS "Project: Lighting")
+message(STATUS "========== Configuration ==========")
+message(STATUS "Project: ${PROJECT_NAME}")
 message(STATUS "C++ Standard: ${CMAKE_CXX_STANDARD}")
 message(STATUS "OpenGL Version: ${OPENGL_VERSION_STRING}")
 message(STATUS "GLEW Version: ${GLEW_VERSION}")
