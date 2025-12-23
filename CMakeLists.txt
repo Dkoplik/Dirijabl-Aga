@@ -28,6 +28,7 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Dirijabl/src/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Dirijabl/src/camera.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Dirijabl/src/shader.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Dirijabl/src/model.cpp
 )
 
 set(HEADERS
