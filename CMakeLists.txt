@@ -49,7 +49,7 @@ foreach(src ${SOURCES})
 endforeach()
 
 foreach(hdr ${HEADERS})
-    if(NOT EXISTS ${src})
+    if(NOT EXISTS ${hdr})
         message(WARNING "Файл не найден: ${hdr}")
     else()
         message(STATUS "Найден: ${hdr}")
@@ -66,8 +66,8 @@ add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 # ============================================================================
 target_include_directories(${PROJECT_NAME} 
     PRIVATE 
-        ${CMAKE_CURRENT_SOURCE_DIR}/Lighting/include
-        ${CMAKE_CURRENT_SOURCE_DIR}/Lighting/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/Dirijabl/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/Dirijabl/src
         ${OPENGL_INCLUDE_DIR}
         ${GLEW_INCLUDE_DIRS}
         ${GLM_INCLUDE_DIRS}
