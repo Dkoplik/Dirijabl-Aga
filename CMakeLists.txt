@@ -48,6 +48,14 @@ foreach(src ${SOURCES})
     endif()
 endforeach()
 
+foreach(hdr ${HEADERS})
+    if(NOT EXISTS ${src})
+        message(WARNING "Файл не найден: ${hdr}")
+    else()
+        message(STATUS "Найден: ${hdr}")
+    endif()
+endforeach()
+
 # ============================================================================
 # Create Executable
 # ============================================================================
